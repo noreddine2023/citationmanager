@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citra - Intelligent Reference Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- React Flow CSS -->
+    <link rel="stylesheet" href="https://esm.sh/reactflow@11.10.4/dist/style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Merriweather', 'serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom scrollbar for cleaner UI */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      /* React Flow Overrides */
+      .react-flow__node {
+        border-radius: 12px;
+      }
+      /* Hide scrollbar for auto-growing textareas */
+      .noscroll::-webkit-scrollbar {
+        display: none;
+      }
+      .noscroll {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      /* Tiptap Editor Styles */
+      .ProseMirror {
+        outline: none;
+        padding-bottom: 100px;
+      }
+      .ProseMirror p.is-editor-empty:first-child::before {
+        color: #9ca3af;
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+      }
+      
+      /* Notion-like Block Styles */
+      .ProseMirror h1 { font-size: 2.25rem; font-weight: 800; margin-top: 1.5em; margin-bottom: 0.5em; line-height: 1.1; }
+      .ProseMirror h2 { font-size: 1.75rem; font-weight: 700; margin-top: 1.3em; margin-bottom: 0.4em; }
+      .ProseMirror h3 { font-size: 1.4rem; font-weight: 600; margin-top: 1.1em; margin-bottom: 0.3em; }
+      
+      .ProseMirror ul[data-type="taskList"] {
+        list-style: none;
+        padding: 0;
+      }
+      .ProseMirror ul[data-type="taskList"] li {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .ProseMirror pre {
+        background: #1e293b;
+        color: #e2e8f0;
+        font-family: monospace;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        code {
+          color: inherit;
+          padding: 0;
+          background: none;
+          font-size: 0.8rem;
+        }
+      }
+      .ProseMirror blockquote {
+        border-left: 3px solid #e2e8f0;
+        padding-left: 1rem;
+        margin-left: 0;
+        font-style: italic;
+        color: #64748b;
+      }
+      
+      /* Floating Menu Animation */
+      @keyframes float-up {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-float-up {
+        animation: float-up 0.15s ease-out forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js",
+    "firebase/storage": "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.6.0/",
+    "pdfjs-dist": "https://esm.sh/pdfjs-dist@4.0.379",
+    "pdfjs-dist/": "https://esm.sh/pdfjs-dist@4.0.379/",
+    "reactflow": "https://esm.sh/reactflow@11.10.4?external=react,react-dom",
+    "@tiptap/react": "https://esm.sh/@tiptap/react@2.2.4?external=react,react-dom",
+    "@tiptap/pm": "https://esm.sh/@tiptap/pm@2.2.4",
+    "@tiptap/starter-kit": "https://esm.sh/@tiptap/starter-kit@2.2.4",
+    "@tiptap/extension-placeholder": "https://esm.sh/@tiptap/extension-placeholder@2.2.4",
+    "@tiptap/extension-underline": "https://esm.sh/@tiptap/extension-underline@2.2.4",
+    "@tiptap/extension-highlight": "https://esm.sh/@tiptap/extension-highlight@2.2.4",
+    "@tiptap/extension-link": "https://esm.sh/@tiptap/extension-link@2.2.4",
+    "@tiptap/extension-task-list": "https://esm.sh/@tiptap/extension-task-list@2.2.4",
+    "@tiptap/extension-task-item": "https://esm.sh/@tiptap/extension-task-item@2.2.4",
+    "@tiptap/extension-image": "https://esm.sh/@tiptap/extension-image@2.2.4",
+    "@tiptap/suggestion": "https://esm.sh/@tiptap/suggestion@2.2.4",
+    "tippy.js": "https://esm.sh/tippy.js@6.3.7",
+    "@tiptap/core": "https://aistudiocdn.com/@tiptap/core@^3.11.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-slate-50 text-slate-900 h-screen overflow-hidden">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
