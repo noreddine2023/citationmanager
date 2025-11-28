@@ -31,7 +31,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     
     onUpdatePaper({
       ...paper,
-      notes: [...(paper.notes || []), newNote]
+      notes: [...(paper.notes ?? []), newNote]
     });
     
     setNoteContent('');
@@ -40,7 +40,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
   const handleDeleteNote = (noteId: string) => {
     onUpdatePaper({
       ...paper,
-      notes: paper.notes?.filter(n => n.id !== noteId) || []
+      notes: paper.notes?.filter(n => n.id !== noteId) ?? []
     });
   };
 
