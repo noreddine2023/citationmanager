@@ -29,7 +29,11 @@ const formatCitation = (paper: Paper, style: CitationStyle): string => {
     case 'IEEE':
       return `${authors}, "${title}," ${venue}, ${year}.`.trim();
     case 'BibTeX':
-      const key = paper.id.replace(/[^a-zA-Z0-9]/g, '').slice(0, 20);
+      // Generate unique key using first author's last name, year, and partial ID hash
+      const firstAuthor = paper.authors[0]?.name.split(' ').pop()?.toLowerCase() || 'unknown';
+      const yearStr = paper.year || 'nd';
+      const idHash = paper.id.slice(-6).replace(/[^a-zA-Z0-9]/g, '');
+      const key = `${firstAuthor}${yearStr}${idHash}`;
       return `@article{${key},\n  author = {${authors}},\n  title = {${title}},\n  journal = {${venue}},\n  year = {${year}}\n}`;
     case 'Vancouver':
       return `${authors}. ${title}. ${venue}. ${year}.`.trim();

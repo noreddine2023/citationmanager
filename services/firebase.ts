@@ -27,9 +27,12 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Mock user for demo purposes
-const mockUser = { uid: 'demo-user', email: 'demo@example.com' };
-(auth as any).currentUser = mockUser;
+// Mock user for demo/development purposes only
+// In production, use proper Firebase authentication
+if (process.env.NODE_ENV !== 'production') {
+  const mockUser = { uid: 'demo-user', email: 'demo@example.com' };
+  (auth as any).currentUser = mockUser;
+}
 
 // Papers Collection
 export const subscribeToPapers = (userId: string, callback: (papers: Paper[]) => void): (() => void) => {

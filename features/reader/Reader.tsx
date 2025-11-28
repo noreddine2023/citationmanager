@@ -40,7 +40,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
   const handleDeleteNote = (noteId: string) => {
     onUpdatePaper({
       ...paper,
-      notes: paper.notes.filter(n => n.id !== noteId)
+      notes: paper.notes?.filter(n => n.id !== noteId) || []
     });
   };
 
@@ -177,7 +177,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
 
             {/* Notes List */}
             <div className="space-y-3">
-              {paper.notes?.length === 0 && (
+              {(!paper.notes || paper.notes.length === 0) && (
                 <p className="text-slate-500 text-center py-8">No notes yet</p>
               )}
               {paper.notes?.map(note => (
